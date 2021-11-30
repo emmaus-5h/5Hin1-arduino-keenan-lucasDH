@@ -144,25 +144,25 @@ void loop()
 {
   // toestand bepalen
     if (afstandM < 30 && afstandL > 30 && afstandR < 30) {
-      toestand = rechtsaf;
+      toestand = RECHTSAF;
     }
 
       if (afstandM < 30 && afstandL < 30 && afstandR > 30) {
-      toestand = linksaf;
+      toestand = LINKSAF;
     }
 
     if (afstandM > 40) {
-      toestand = vooruit;
+      toestand = VOORUIT;
     }
 
 // wacht 
 
     if (afstandM < 30 && afstandL < 30 && afstandR < 30) {
-      toestand = wacht;
+      toestand = WACHT;
     }
 
 
-  if (toestand == rechtsaf) {
+  if (toestand == RECHTSAF) {
     // zet motoren stil
     analogWrite(pinMotorSnelheidR, 255);
     analogWrite(pinMotorSnelheidL, 155);
@@ -176,7 +176,7 @@ void loop()
     Serial.println("STOP");
   }
 
-  if (toestand == linksaf) {
+  if (toestand == LINKSAF) {
     // zet motoren stil
     analogWrite(pinMotorSnelheidR, 155);
     analogWrite(pinMotorSnelheidL, 255);
@@ -191,7 +191,7 @@ void loop()
   }
 
   
-  if (toestand == vooruit) {
+  if (toestand == VOORUIT) {
     // zet motoren stil
     analogWrite(pinMotorSnelheidR, 255);
     analogWrite(pinMotorSnelheidL, 255);
@@ -206,7 +206,7 @@ void loop()
   }
 
   
-  if (toestand == wacht) {
+  if (toestand == WACHT) {
     // zet motoren stil
     analogWrite(pinMotorSnelheidR, 0);
     analogWrite(pinMotorSnelheidL, 0);
