@@ -74,8 +74,8 @@ long readDistance(int triggerPin, int echoPin)
   }
   return echoTime;
 }
-
-void testLoop() {
+/*
+  void testLoop() {
   // lees afstandssensoren uit
   // dit is nodig voor alle test toestanden
   // omrekenen naar centimeters = milliseconden / 29 / 2
@@ -104,7 +104,8 @@ void testLoop() {
   Serial.print(regelBoven);
   Serial.print("--");
   Serial.println(regelOnder);
-}
+  }
+*/
 
 /*****************************************
    setup() en loop()
@@ -142,61 +143,79 @@ void setup() {
 
 void loop()
 {
+  // lees afstandssensoren uit
+  // dit is nodig voor alle test toestanden
+  // omrekenen naar centimeters = milliseconden / 29 / 2
+  afstandR = readDistance(pinAfstandTrigR, pinAfstandEchoR) / 29 / 2;
+  afstandL = readDistance(pinAfstandTrigL, pinAfstandEchoL) / 29 / 2;
+  afstandM = readDistance(pinAfstandTrigM, pinAfstandEchoM) / 29 / 2;
+
   // toestand bepalen
 
   //WACHT
 
   if (toestand == WACHT) {
-    (afstandM < 30 && afstandL > 30 && afstandR < 30);
-    toestand = LINKSAF;
+    if (afstandM < 30 && afstandL > 30 && afstandR < 30) {
+      toestand = LINKSAF;
+    }
   }
 
   if (toestand == WACHT) {
-    (afstandM < 30 && afstandL < 30 && afstandR > 30);
-    toestand = RECHTSAF;
+    if (afstandM < 30 && afstandL < 30 && afstandR > 30) {
+      toestand = RECHTSAF;
+      
+    }
   }
   if (toestand == WACHT) {
-    (afstandM > 30 && afstandL > 20 && afstandR > 20);
-    toestand = VOORUIT;
+    if (afstandM > 30 && afstandL > 20 && afstandR > 20) {
+      toestand = VOORUIT;
+    }
   }
 
   //VOORUIT
 
   if (toestand == VOORUIT) {
-    (afstandM < 20 && afstandL > 20 && afstandR < 20);
-    toestand = LINKSAF;
+    if (afstandM < 20 && afstandL > 20 && afstandR < 20) {
+      toestand = LINKSAF;
+    }
   }
 
   if (toestand == VOORUIT) {
-    (afstandM < 20 && afstandL < 20 && afstandR > 20);
-    toestand = RECHTSAF;
+    if (afstandM < 20 && afstandL < 20 && afstandR > 20) {
+      toestand = RECHTSAF;
+    }
   }
   if (toestand == VOORUIT) {
-    (afstandM < 20 && afstandL < 20 && afstandR < 20);
-    toestand = WACHT;
+    if (afstandM < 20 && afstandL < 20 && afstandR < 20) {
+      toestand = WACHT;
+    }
   }
   //RECHTSAF
 
   if (toestand == RECHTSAF) {
-    (afstandM > 30);
-    toestand = VOORUIT;
+    if (afstandM > 30) {
+      toestand = VOORUIT;
+    }
   }
   if (toestand == RECHTSAF) {
-    (afstandM < 30 && afstandL < 30 && afstandR > 30);
-    toestand = WACHT;
+    if (afstandM < 30 && afstandL < 30 && afstandR < 30) {
+      toestand = WACHT;
+    }
   }
 
 
   //LINKSAF
 
   if (toestand == LINKSAF) {
-    (afstandM > 30);
-    toestand = VOORUIT;
+    if (afstandM > 30) {
+      toestand = VOORUIT;
+    }
   }
 
   if (toestand == LINKSAF) {
-    (afstandM < 30 && afstandL < 30 && afstandR < 30);
-    toestand = WACHT;
+    if (afstandM < 30 && afstandL < 30 && afstandR < 30) {
+      toestand = WACHT;
+    }
   }
 
 
@@ -213,15 +232,31 @@ void loop()
     lcd.print(regelBoven);
     lcd.setCursor(0, 1); // zet cursor op het begin van de onderste regel
     lcd.print(regelOnder);
-    Serial.println("STOP");
+    Serial.println("VOORUIT");
+
+    // zet tekst op display
+    regelBoven = String(afstandL) + "   " +
+                 String(afstandM) + "   " +
+                 String(afstandR) + "   ";
+    regelOnder = String(snelheidL) +
+                 " TEST" + String(testToestand) + " " +
+                 String(snelheidR) + "      ";
+    lcd.setCursor(0, 0); // zet cursor op het begin van de bovenste regel
+    lcd.print(regelBoven);
+    lcd.setCursor(0, 1); // zet cursor op het begin van de onderste regel
+    lcd.print(regelOnder);
+    // zet debug info op de seriële monitor
+    Serial.print(regelBoven);
+    Serial.print("--");
+    Serial.println(regelOnder);
   }
 
 
 
   if (toestand == RECHTSAF) {
     // zet motoren stil
-    analogWrite(pinMotorSnelheidR, 155);
-    analogWrite(pinMotorSnelheidL, 55);
+    analogWrite(pinMotorSnelheidR, 55);
+    analogWrite(pinMotorSnelheidL, 155);
     // zet tekst op display
     regelBoven = "                ";
     regelOnder = "      RECHTSAF      ";
@@ -229,13 +264,13 @@ void loop()
     lcd.print(regelBoven);
     lcd.setCursor(0, 1); // zet cursor op het begin van de onderste regel
     lcd.print(regelOnder);
-    Serial.println("STOP");
+    Serial.println("RECHTSAF");
   }
 
   if (toestand == LINKSAF) {
     // zet motoren stil
-    analogWrite(pinMotorSnelheidR, 55);
-    analogWrite(pinMotorSnelheidL, 155);
+    analogWrite(pinMotorSnelheidR, 155);
+    analogWrite(pinMotorSnelheidL, 55);
     // zet tekst op display
     regelBoven = "                ";
     regelOnder = "      LINKSAF      ";
@@ -243,7 +278,7 @@ void loop()
     lcd.print(regelBoven);
     lcd.setCursor(0, 1); // zet cursor op het begin van de onderste regel
     lcd.print(regelOnder);
-    Serial.println("STOP");
+    Serial.println("LINKSAF");
   }
 
 
@@ -260,7 +295,7 @@ void loop()
     lcd.print(regelBoven);
     lcd.setCursor(0, 1); // zet cursor op het begin van de onderste regel
     lcd.print(regelOnder);
-    Serial.println("STOP");
+    Serial.println("WACHT");
   }
   // vertraging om te zorgen dat de seriële monitor de berichten bijhoudt
   delay(100);
