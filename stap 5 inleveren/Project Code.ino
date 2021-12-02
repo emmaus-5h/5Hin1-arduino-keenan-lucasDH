@@ -206,8 +206,8 @@ if (toestand == RECHTSAF) {
 
   if (toestand == RECHTSAF) {
     // zet motoren stil
-    analogWrite(pinMotorSnelheidR, 255);
-    analogWrite(pinMotorSnelheidL, 155);
+    analogWrite(pinMotorSnelheidR, 155);
+    analogWrite(pinMotorSnelheidL, 55);
     // zet tekst op display
     regelBoven = "                ";
     regelOnder = "      RECHTSAF      ";
@@ -220,8 +220,8 @@ if (toestand == RECHTSAF) {
 
   if (toestand == LINKSAF) {
     // zet motoren stil
-    analogWrite(pinMotorSnelheidR, 155);
-    analogWrite(pinMotorSnelheidL, 255);
+    analogWrite(pinMotorSnelheidR, 55);
+    analogWrite(pinMotorSnelheidL, 155);
     // zet tekst op display
     regelBoven = "                ";
     regelOnder = "      LINKSAF      ";
@@ -235,8 +235,8 @@ if (toestand == RECHTSAF) {
   
   if (toestand == VOORUIT) {
     // zet motoren stil
-    analogWrite(pinMotorSnelheidR, 255);
-    analogWrite(pinMotorSnelheidL, 255);
+    analogWrite(pinMotorSnelheidR, 155);
+    analogWrite(pinMotorSnelheidL, 155);
     // zet tekst op display
     regelBoven = "                ";
     regelOnder = "      RECHTSAF      ";
