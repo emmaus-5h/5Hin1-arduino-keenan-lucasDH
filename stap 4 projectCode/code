@@ -47,7 +47,7 @@ const int RECHTSAF = 1;
 const int LINKSAF = 2;
 const int VOORUIT = 3;
 const int WACHT = 4;
-int testToestand = RECHTSAF;
+int testToestand = VOORUIT;
 unsigned long testToestandStartTijd = 0;
 
 /*****************************************
@@ -136,7 +136,7 @@ void setup() {
   // zet toestanden en in beginstand
   toestand = TEST;
   toestandStartTijd = millis();
-  testToestand = RECHTSAF;
+  testToestand = VOORUIT;
   testToestandStartTijd = millis();
 }
 
@@ -202,12 +202,24 @@ if (toestand == RECHTSAF) {
 
 
 
-
+  if (toestand == VOORUIT) {
+    // zet motoren stil
+    analogWrite(pinMotorSnelheidR, 155);
+    analogWrite(pinMotorSnelheidL, 155);
+    // zet tekst op display
+    regelBoven = "                ";
+    regelOnder = "      VOORUIT      ";
+    lcd.setCursor(0, 0); // zet cursor op het begin van de bovenste regel
+    lcd.print(regelBoven);
+    lcd.setCursor(0, 1); // zet cursor op het begin van de onderste regel
+    lcd.print(regelOnder);
+    Serial.println("STOP");
+  }
 
   if (toestand == RECHTSAF) {
     // zet motoren stil
-    analogWrite(pinMotorSnelheidR, 255);
-    analogWrite(pinMotorSnelheidL, 155);
+    analogWrite(pinMotorSnelheidR, 155);
+    analogWrite(pinMotorSnelheidL, 55);
     // zet tekst op display
     regelBoven = "                ";
     regelOnder = "      RECHTSAF      ";
@@ -220,8 +232,8 @@ if (toestand == RECHTSAF) {
 
   if (toestand == LINKSAF) {
     // zet motoren stil
-    analogWrite(pinMotorSnelheidR, 155);
-    analogWrite(pinMotorSnelheidL, 255);
+    analogWrite(pinMotorSnelheidR, 55);
+    analogWrite(pinMotorSnelheidL, 155);
     // zet tekst op display
     regelBoven = "                ";
     regelOnder = "      LINKSAF      ";
@@ -233,19 +245,7 @@ if (toestand == RECHTSAF) {
   }
 
   
-  if (toestand == VOORUIT) {
-    // zet motoren stil
-    analogWrite(pinMotorSnelheidR, 255);
-    analogWrite(pinMotorSnelheidL, 255);
-    // zet tekst op display
-    regelBoven = "                ";
-    regelOnder = "      RECHTSAF      ";
-    lcd.setCursor(0, 0); // zet cursor op het begin van de bovenste regel
-    lcd.print(regelBoven);
-    lcd.setCursor(0, 1); // zet cursor op het begin van de onderste regel
-    lcd.print(regelOnder);
-    Serial.println("STOP");
-  }
+
 
   
   if (toestand == WACHT) {
@@ -254,7 +254,7 @@ if (toestand == RECHTSAF) {
     analogWrite(pinMotorSnelheidL, 0);
     // zet tekst op display
     regelBoven = "                ";
-    regelOnder = "      wacht      ";
+    regelOnder = "      WACHT      ";
     lcd.setCursor(0, 0); // zet cursor op het begin van de bovenste regel
     lcd.print(regelBoven);
     lcd.setCursor(0, 1); // zet cursor op het begin van de onderste regel
