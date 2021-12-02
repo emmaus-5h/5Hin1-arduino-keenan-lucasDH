@@ -143,23 +143,65 @@ void setup() {
 void loop()
 {
   // toestand bepalen
-    if (afstandM < 30 && afstandL > 30 && afstandR < 30) {
-      toestand = RECHTSAF;
-    }
 
-      if (afstandM < 30 && afstandL < 30 && afstandR > 30) {
+  //WACHT
+    
+    if (toestand == WACHT) {
+    (afstandM < 30 && afstandL > 30 && afstandR < 30); 
       toestand = LINKSAF;
     }
 
-    if (afstandM > 40) {
+if (toestand == WACHT){
+     (afstandM < 30 && afstandL < 30 && afstandR > 30); 
+      toestand = RECHTSAF;
+    }
+if (toestand == WACHT) {
+  (afstandM > 30 && afstandL > 20 && afstandR > 20);
+  toestand = VOORUIT;
+}
+
+//VOORUIT
+
+if (toestand == VOORUIT) {
+  (afstandM < 20 && afstandL > 20 && afstandR < 20);
+  toestand = LINKSAF;
+}
+
+if (toestand == VOORUIT) {
+  (afstandM < 20 && afstandL < 20 && afstandR > 20);
+  toestand = RECHTSAF;
+}
+if (toestand == VOORUIT) {
+  (afstandM < 20 && afstandL < 20 && afstandR < 20);
+  toestand = WACHT;
+}
+//RECHTSAF
+     
+ if (toestand == RECHTSAF) {
+       (afstandM > 30);
+      toestand = VOORUIT;
+       }
+if (toestand == RECHTSAF) {
+       (afstandM < 30 && afstandL < 30 && afstandR > 30);
+      toestand = WACHT;
+       }
+
+     
+//LINKSAF
+
+      if (toestand == LINKSAF) {
+      (afstandM > 30); 
       toestand = VOORUIT;
     }
 
-// wacht 
-
-    if (afstandM < 30 && afstandL < 30 && afstandR < 30) {
+   if (toestand == LINKSAF) {
+      (afstandM < 30 && afstandL < 30 && afstandR < 30); 
       toestand = WACHT;
     }
+
+
+
+
 
 
   if (toestand == RECHTSAF) {
