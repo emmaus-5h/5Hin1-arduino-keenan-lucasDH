@@ -155,19 +155,19 @@ void loop()
   //WACHT
 
   if (toestand == WACHT) {
-    if (afstandM < 30 && afstandL > 30 && afstandR < 30) {
+    if (afstandM < 30 && afstandL > 30 ) {
       toestand = LINKSAF;
     }
   }
 
   if (toestand == WACHT) {
-    if (afstandM < 30 && afstandL < 30 && afstandR > 30) {
+    if (afstandM < 30 && afstandR > 30) {
       toestand = RECHTSAF;
-      
+
     }
   }
   if (toestand == WACHT) {
-    if (afstandM > 30 && afstandL > 20 && afstandR > 20) {
+    if (afstandM > 30) {
       toestand = VOORUIT;
     }
   }
@@ -175,18 +175,18 @@ void loop()
   //VOORUIT
 
   if (toestand == VOORUIT) {
-    if (afstandM < 20 && afstandL > 20 && afstandR < 20) {
+    if (afstandM < 20 && afstandL > 20 && afstandR > 20) {
       toestand = LINKSAF;
     }
   }
 
   if (toestand == VOORUIT) {
-    if (afstandM < 20 && afstandL < 20 && afstandR > 20) {
+    if (afstandM < 20 && afstandL < 20 && afstandR < 20) {
       toestand = RECHTSAF;
     }
   }
   if (toestand == VOORUIT) {
-    if (afstandM < 20 && afstandL < 20 && afstandR < 20) {
+    if (afstandM < 20) {
       toestand = WACHT;
     }
   }
