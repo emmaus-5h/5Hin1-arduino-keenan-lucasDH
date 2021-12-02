@@ -1,19 +1,19 @@
 /*****************************************
- * Auto Startcode                        *
- * met toestansdiagrammen                *
- * Emmauscollege                         *
- * v20201117GEE                          *
+   Auto Startcode
+   met toestansdiagrammen
+   Emmauscollege
+   v20201117GEE
  *****************************************/
- 
+
 // libraries die je gebruikt
 #include <LiquidCrystal.h>
 
 /*****************************************
- * variabelen die je gebruikt            *
+   variabelen die je gebruikt
  *****************************************/
 
 // initialize het display
-// de helderheid van het display regel je met de potmeter op de auto, 
+// de helderheid van het display regel je met de potmeter op de auto,
 // daarvoor is geen code nodig
 LiquidCrystal lcd(7, 6, 5, 4, 3, 2);
 
@@ -31,7 +31,7 @@ const int pinMotorSnelheidL = 10; // motor links
 long afstandR = 0;
 long afstandL = 0;
 long afstandM = 0;
-int snelheidR = 0; 
+int snelheidR = 0;
 int  snelheidL = 0;
 String regelBoven = "";
 String regelOnder = "";
@@ -51,7 +51,7 @@ int testToestand = VOORUIT;
 unsigned long testToestandStartTijd = 0;
 
 /*****************************************
- * functies die je gebruikt              *
+   functies die je gebruikt
  *****************************************/
 
 // functie om afstandssensor uit te lezen
@@ -68,7 +68,7 @@ long readDistance(int triggerPin, int echoPin)
   pinMode(echoPin, INPUT);
   // Reads the echo pin, and returns the sound wave travel time in microseconds
   // timeout after 30.000 microseconds (around 5 meters)
-  echoTime = pulseIn(echoPin, HIGH, 30000); 
+  echoTime = pulseIn(echoPin, HIGH, 30000);
   if (echoTime == 0) {
     echoTime = 30000;
   }
@@ -79,9 +79,9 @@ void testLoop() {
   // lees afstandssensoren uit
   // dit is nodig voor alle test toestanden
   // omrekenen naar centimeters = milliseconden / 29 / 2
-  afstandR = readDistance(pinAfstandTrigR, pinAfstandEchoR) / 29 / 2; 
-  afstandL = readDistance(pinAfstandTrigL, pinAfstandEchoL) / 29 / 2; 
-  afstandM = readDistance(pinAfstandTrigM, pinAfstandEchoM) / 29 / 2; 
+  afstandR = readDistance(pinAfstandTrigR, pinAfstandEchoR) / 29 / 2;
+  afstandL = readDistance(pinAfstandTrigL, pinAfstandEchoL) / 29 / 2;
+  afstandM = readDistance(pinAfstandTrigM, pinAfstandEchoM) / 29 / 2;
 
   // bepaal toestand
 
@@ -90,11 +90,11 @@ void testLoop() {
   analogWrite(pinMotorSnelheidR, snelheidR);
   analogWrite(pinMotorSnelheidL, snelheidL);
   // zet tekst op display
-  regelBoven = String(afstandL) + "   " + 
-               String(afstandM) + "   " + 
+  regelBoven = String(afstandL) + "   " +
+               String(afstandM) + "   " +
                String(afstandR) + "   ";
-  regelOnder = String(snelheidL) + 
-               " TEST" + String(testToestand) + " " + 
+  regelOnder = String(snelheidL) +
+               " TEST" + String(testToestand) + " " +
                String(snelheidR) + "      ";
   lcd.setCursor(0, 0); // zet cursor op het begin van de bovenste regel
   lcd.print(regelBoven);
@@ -107,7 +107,7 @@ void testLoop() {
 }
 
 /*****************************************
- * setup() en loop()                     *
+   setup() en loop()
  *****************************************/
 
 void setup() {
@@ -145,69 +145,69 @@ void loop()
   // toestand bepalen
 
   //WACHT
-    
-    if (toestand == WACHT) {
-    (afstandM < 30 && afstandL > 30 && afstandR < 30); 
-      toestand = LINKSAF;
-    }
 
-if (toestand == WACHT){
-     (afstandM < 30 && afstandL < 30 && afstandR > 30); 
-      toestand = RECHTSAF;
-    }
-if (toestand == WACHT) {
-  (afstandM > 30 && afstandL > 20 && afstandR > 20);
-  toestand = VOORUIT;
-}
+  if (toestand == WACHT) {
+    (afstandM < 30 && afstandL > 30 && afstandR < 30);
+    toestand = LINKSAF;
+  }
 
-//VOORUIT
+  if (toestand == WACHT) {
+    (afstandM < 30 && afstandL < 30 && afstandR > 30);
+    toestand = RECHTSAF;
+  }
+  if (toestand == WACHT) {
+    (afstandM > 30 && afstandL > 20 && afstandR > 20);
+    toestand = VOORUIT;
+  }
 
-if (toestand == VOORUIT) {
-  (afstandM < 20 && afstandL > 20 && afstandR < 20);
-  toestand = LINKSAF;
-}
+  //VOORUIT
 
-if (toestand == VOORUIT) {
-  (afstandM < 20 && afstandL < 20 && afstandR > 20);
-  toestand = RECHTSAF;
-}
-if (toestand == VOORUIT) {
-  (afstandM < 20 && afstandL < 20 && afstandR < 20);
-  toestand = WACHT;
-}
-//RECHTSAF
-     
- if (toestand == RECHTSAF) {
-       (afstandM > 30);
-      toestand = VOORUIT;
-       }
-if (toestand == RECHTSAF) {
-       (afstandM < 30 && afstandL < 30 && afstandR > 30);
-      toestand = WACHT;
-       }
+  if (toestand == VOORUIT) {
+    (afstandM < 20 && afstandL > 20 && afstandR < 20);
+    toestand = LINKSAF;
+  }
 
-     
-//LINKSAF
+  if (toestand == VOORUIT) {
+    (afstandM < 20 && afstandL < 20 && afstandR > 20);
+    toestand = RECHTSAF;
+  }
+  if (toestand == VOORUIT) {
+    (afstandM < 20 && afstandL < 20 && afstandR < 20);
+    toestand = WACHT;
+  }
+  //RECHTSAF
 
-      if (toestand == LINKSAF) {
-      (afstandM > 30); 
-      toestand = VOORUIT;
-    }
-
-   if (toestand == LINKSAF) {
-      (afstandM < 30 && afstandL < 30 && afstandR < 30); 
-      toestand = WACHT;
-    }
+  if (toestand == RECHTSAF) {
+    (afstandM > 30);
+    toestand = VOORUIT;
+  }
+  if (toestand == RECHTSAF) {
+    (afstandM < 30 && afstandL < 30 && afstandR > 30);
+    toestand = WACHT;
+  }
 
 
+  //LINKSAF
 
- 
+  if (toestand == LINKSAF) {
+    (afstandM > 30);
+    toestand = VOORUIT;
+  }
+
+  if (toestand == LINKSAF) {
+    (afstandM < 30 && afstandL < 30 && afstandR < 30);
+    toestand = WACHT;
+  }
+
+
+
+
   if (toestand == VOORUIT) {
     // zet motoren stil
     analogWrite(pinMotorSnelheidR, 155);
     analogWrite(pinMotorSnelheidL, 155);
     // zet tekst op display
-    regelBoven = "                ";
+    regelBoven = "               ";
     regelOnder = "      VOORUIT      ";
     lcd.setCursor(0, 0); // zet cursor op het begin van de bovenste regel
     lcd.print(regelBoven);
@@ -246,9 +246,9 @@ if (toestand == RECHTSAF) {
     Serial.println("STOP");
   }
 
- 
 
-  
+
+
   if (toestand == WACHT) {
     // zet motoren stil
     analogWrite(pinMotorSnelheidR, 0);
