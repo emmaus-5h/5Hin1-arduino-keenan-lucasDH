@@ -175,13 +175,13 @@ void loop()
   //VOORUIT
 
   if (toestand == VOORUIT) {
-    if (afstandM < 20 && afstandL > 20 && afstandR > 20) {
+    if (afstandM < 20 && afstandL > 20 && afstandR < 20) {
       toestand = LINKSAF;
     }
   }
 
   if (toestand == VOORUIT) {
-    if (afstandM < 20 && afstandL < 20 && afstandR < 20) {
+    if (afstandM < 20 && afstandL < 20 && afstandR > 20) {
       toestand = RECHTSAF;
     }
   }
